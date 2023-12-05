@@ -15,35 +15,15 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <stdlib.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
 
-/**@param char_read every character stored
- * @param next pointer to the next node of the list
- * */
-typedef struct source_line_list
-{
-	char		char_read;
-	t_line_list	*next;
-}t_line_list;
-
-/**@param position current position in buffer
- * @param nbytes_read the amount of bytes read in buffer
- * @param len the lengh of string
- * @param fd the number of the file descriptor
- * @param buffer the string to store the read char
- * @param line the struct where the line will be storaged
-**/
-typedef struct s_file{
-	int			position;
-	int			nbytes;
-	int			len;
-	int			fd;
-	char		buf[BUFFER_SIZE];
-	t_line_list	*line;
-}t_file;
+char	*find_newline(char *str)
+size_t	find_len(const char *str);
+char	*ft_strjoin(char const *s1, char const *buffer);
 
 char	*get_next_line(int fd);
 

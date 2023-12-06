@@ -21,9 +21,9 @@
 #  define BUFFER_SIZE 10
 # endif
 
-char	*find_newline(char *str)
+int		find_newline(char *str);
 size_t	find_len(const char *str);
-char	*ft_strjoin(char const *s1, char const *buffer);
+char	*ft_strjoin(char *s1, char *buffer);
 
 char	*get_next_line(int fd);
 

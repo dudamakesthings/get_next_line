@@ -12,17 +12,20 @@
 
 #include "get_next_line.h"
 
-char	*find_newline(char *str)
+int	find_newline(char *str)
 {
+	int	i;
+
+	i = 0;
 	if (!str)
-		return (NULL);
-	while (*str)
+		return (0);
+	while (str[i])
 	{
-		if (*str == '\n')
-			return (str + 1);
-		str++;
+		if (str[i] == '\n')
+			return (i);
+		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 size_t	find_len(const char *str)
@@ -31,27 +34,30 @@ size_t	find_len(const char *str)
 
 	counter = 0;
 	if (!str)
-		return (NULL);
+		return (0);
 	while (*str)
 		counter++;
 	return (counter);
 }
 
-char	*ft_strjoin(char const *s1, char const *buffer)
+char	*ft_strjoin(char *s1, char *buffer)
 {
 	char	*newstr;
 	size_t	len_newstr;
 	int		i;
+	int		j;
 
 	i = 0;
-	len_newstr = ft_strlen(s1)+ ft_strlen(buffer);
+	j = 0;
+	len_newstr = find_len(s1)+ find_len(buffer);
 	newstr = (char *)malloc((len_newstr + 1) * sizeof(char));
 	if (newstr == NULL)
 		return (free(s1), NULL);
-	while (*s1)
-		newstr[j++] = s1++;
-	while (*buffer)
-		newstr[j++] = buffer++;
-	newstr[j] = '\0';
+	while (s1[j])
+		newstr[i++] = s1[j++];
+	j = 0;
+	while (buffer[j])
+		newstr[i++] = buffer[j++];
+	newstr[i] = '\0';
 	return (free(s1), newstr);
 }

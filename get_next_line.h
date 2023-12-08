@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/11/29 16:59:02 by edribeir      #+#    #+#                 */
-/*   Updated: 2023/12/01 15:54:19 by edribeir      ########   odam.nl         */
+/*   Created: 2023/12/07 10:42:46 by edribeir      #+#    #+#                 */
+/*   Updated: 2023/12/08 18:06:55 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@
 #  define BUFFER_SIZE 10
 # endif
 
-int		find_newline(char *str);
+char	*ft_strjoin(char *line, char *buffer);
 size_t	find_len(const char *str);
-char	*ft_strjoin(char *s1, char *buffer);
-
+char	*find_newline(char *str);
+void	add_rest_buffer(char *dst, char *src);
+void	copy_str(char *dst, char *src);
+char	*read_and_join(int fd, char *buffer, char *line);
 char	*get_next_line(int fd);
+void	*ft_calloc(size_t count, size_t size);
 
 #endif

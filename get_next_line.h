@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/07 10:42:46 by edribeir      #+#    #+#                 */
-/*   Updated: 2023/12/08 18:06:55 by edribeir      ########   odam.nl         */
+/*   Updated: 2023/12/11 15:42:50 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
+#include <string.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
 
-char	*ft_strjoin(char *line, char *buffer);
+char	*ft_strjoin(char const *s1, char const *s2);
+
 size_t	find_len(const char *str);
 char	*find_newline(char *str);
 void	add_rest_buffer(char *dst, char *src);

@@ -23,7 +23,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	i = 0;
 	j = 0;
 	len_newstr = ft_strlen(s1)+ ft_strlen(s2);
-	newstr = (char *)malloc((len_newstr + 1) * sizeof(char));
+	newstr = malloc((len_newstr + 1) * sizeof(char));
 	if (newstr == NULL)
 		return (NULL);
 	while (s1 && s1[i] != '\0')
@@ -52,6 +52,7 @@ char	*get_next_line(int fd)
 	while ((strchr(buffer, '\n') == NULL) && nbytesreads != 0)
 	{
 		nbytesreads = read(fd, space, BUFFER_SIZE);
+		// printf("%s\n\n", space);
 		space[nbytesreads] = '\0';
 		i = 0;
 		while (space[i] != '\0')

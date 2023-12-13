@@ -35,16 +35,29 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (newstr);
 }
 
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*str;
+	size_t			i;
+
+	str = (unsigned char *)s;
+	i = 0;
+	while (i < n)
+	{
+		str[i] = 0;
+		i++;
+	}
+}
 
 char	*get_next_line(int fd)
 {
-	char static space[BUFFER_SIZE + 1];
+	char static space[BUFFER_SIZE];
 	char		*buffer;
 	int			nbytesreads;
 	int			i;
 	char		*temp;
 
-	temp = NULL;
+	temp = "";
 	nbytesreads = 1;
 	buffer = calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
@@ -53,16 +66,17 @@ char	*get_next_line(int fd)
 	{
 		nbytesreads = read(fd, space, BUFFER_SIZE);
 		// printf("%s\n\n", space);
-		space[nbytesreads] = '\0';
 		i = 0;
-		while (space[i] != '\0')
+		while (i < nbytesreads)
 		{
 			buffer[i] = space[i];
 			if (space[i] == '\n')
 				break;
 			i++;
 		}
+		buffer[nbytesreads] = '\0';
 		temp = ft_strjoin(temp, buffer);
+		ft_bzero(buffer, BUFFER_SIZE);
 	}
 	// printf("%s\n", temp);
 	// printf("this is the space %s\n", space);
@@ -81,12 +95,14 @@ int	main(void)
 	// printf("%i\n", fd);
 	// printf("**this is get_next_lins return %s\n", get_next_line(fd));
 	// printf("**this is get_next_lins return 2 %s\n", get_next_line(fd));
-	// 	while (i <= 7)
+		// while (i <= 4)
 	// {
+		for (int x=0; x < 4;x++) {
 		lines = get_next_line(fd);
 		printf("%s\n", lines);
-	// 	free (lines);
-	// 	i++;
+		}
+		// free (lines);
+		// i++;
 	// }
 	close(fd); // if open need to close
 }

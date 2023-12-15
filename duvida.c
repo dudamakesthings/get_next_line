@@ -51,32 +51,34 @@ void	ft_bzero(void *s, size_t n)
 
 char	*get_next_line(int fd)
 {
-	char static space[BUFFER_SIZE];
-	char		*buffer;
+	char static buffer[BUFFER_SIZE + 1];
+	char		*line;
 	int			nbytesreads;
 	int			i;
 	char		*temp;
 
 	temp = "";
 	nbytesreads = 1;
-	buffer = calloc(BUFFER_SIZE + 1, sizeof(char));
-	if (!buffer)
+	if ((fd < 0) || (BUFFER_SIZE <= 0))
 		return (NULL);
-	while ((strchr(buffer, '\n') == NULL) && nbytesreads != 0)
+	line = calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!line)
+		return (NULL);
+	while ((strchr(line, '\n') == NULL) && nbytesreads != 0)
 	{
-		nbytesreads = read(fd, space, BUFFER_SIZE);
+		nbytesreads = read(fd, buffer, BUFFER_SIZE);
 		// printf("%s\n\n", space);
 		i = 0;
 		while (i < nbytesreads)
 		{
-			buffer[i] = space[i];
-			if (space[i] == '\n')
+			line[i] = buffer[i];
+			if (buffer[i] == '\n')
 				break;
 			i++;
 		}
-		buffer[nbytesreads] = '\0';
-		temp = ft_strjoin(temp, buffer);
-		ft_bzero(buffer, BUFFER_SIZE);
+		line[nbytesreads] = '\0';
+		temp = ft_strjoin(temp, line);
+		ft_bzero(line, BUFFER_SIZE);
 	}
 	// printf("%s\n", temp);
 	// printf("this is the space %s\n", space);

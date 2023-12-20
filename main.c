@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/15 10:58:37 by edribeir      #+#    #+#                 */
-/*   Updated: 2023/12/18 17:41:02 by edribeir      ########   odam.nl         */
+/*   Updated: 2023/12/20 11:45:23 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main(void)
 	count = 0;
 	fd = open("example.txt", O_RDONLY);
 
-	while (count < 2)
+	while (count < 4)
 	{
 		count++;
 		next_line = get_next_line(fd);

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/15 11:02:14 by edribeir      #+#    #+#                 */
-/*   Updated: 2023/12/18 19:45:16 by edribeir      ########   odam.nl         */
+/*   Updated: 2023/12/20 18:18:27 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,44 +24,46 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr(char *s, int c)
 {
-	int				i;
-	unsigned char	chr;
+	int	i;
 
-	chr = (unsigned char)c;
 	i = 0;
-	while (str[i] != '\0' && str[i] != chr)
+	if (!s)
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char) c)
+			return ((char *)&s[i]);
 		i++;
-	if (str[i] == chr)
-		return ((char *)&str[i]);
+	}
 	return (NULL);
 }
 
-char	*ft_strjoin(char *basin_buffer, char *cup_buffer)
+char	*ft_strjoin(char *basin, char *cup)
 {
-	char	*basin_plus_cup;
+	char	*basin_cup;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	if (basin_buffer == NULL)
+	if (basin == NULL)
 	{
-		basin_buffer = malloc(1 * sizeof(char));
-		basin_buffer[0] = '\0';
+		basin = malloc(1 * sizeof(char));
+		basin[0] = '\0';
 	}
-	if (!basin_buffer || !cup_buffer)
+	if (!basin || !cup)
 		return (NULL);
-	basin_plus_cup = malloc((ft_strlen(basin_buffer)+ ft_strlen(cup_buffer) + 1) * sizeof(char));
-	if (basin_plus_cup == NULL)
+	basin_cup = malloc((ft_strlen(basin)+ ft_strlen(cup) + 1) * sizeof(char));
+	if (basin_cup == NULL)
 		return (NULL);
-	if (basin_buffer)
-		while (basin_buffer[i] != '\0')
-			basin_plus_cup[j++] = basin_buffer[i++];
+	if (basin)
+		while (basin[i] != '\0')
+			basin_cup[j++] = basin[i++];
 	i = 0;
-	while (cup_buffer[i] != '\0')
-		basin_plus_cup[j++] = cup_buffer[i++];
-	basin_plus_cup[j] = '\0';
-	return (basin_plus_cup);
+	while (cup[i] != '\0')
+		basin_cup[j++] = cup[i++];
+	basin_cup[j] = '\0';
+	return (free(basin), basin_cup);
 }

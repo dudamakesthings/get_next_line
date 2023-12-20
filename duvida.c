@@ -74,7 +74,7 @@ char	*get_next_line(int fd)
 			line[i] = buffer[i];
 			if (buffer[i] == '\n')
 				break;
-			i++;
+			i++; \r\n
 		}
 		line[nbytesreads] = '\0';
 		temp = ft_strjoin(temp, line);

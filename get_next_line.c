@@ -6,96 +6,91 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/15 11:01:53 by edribeir      #+#    #+#                 */
-/*   Updated: 2023/12/20 18:20:20 by edribeir      ########   odam.nl         */
+/*   Updated: 2023/12/20 22:26:14 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_new_basin(char *basin_buffer)
+void	manage_buffer(char *buffer)
+{
+	int	i;
+	char	*tmp;
+
+	i = 0;
+	tmp = ft_strchr(buffer, '\n');
+	if (tmp == NULL)
+		return ;
+	tmp++;
+	while(tmp[i] != '\0')
+	{
+		buffer[i] = tmp[i];
+		i++;
+	}
+	buffer[i] = '\0';
+}
+char	*insert_remainder(char *buffer)
 {
 	int		i;
-	int		j;
-	char	*new_basin;
+	char	*line;
 
 	i = 0;
-	while (basin_buffer[i] && basin_buffer[i] != '\n')
-		i++;
-	if (!basin_buffer[i])
-		return (free(basin_buffer), NULL);
-	new_basin = malloc((ft_strlen(basin_buffer) - i + 1));
-	if (new_basin == NULL)
+	line = malloc((get_length(buffer) + 1) * sizeof(char));
+	if (line == NULL)
 		return (NULL);
-	if (basin_buffer[i] == '\n')
+	while (buffer[i] != '\0' && buffer[i] != '\n')
+	{
+		line[i] = buffer[i];
 		i++;
-	j = 0;
-	while (basin_buffer[i])
-		new_basin[j++] = basin_buffer[i++];
-	new_basin[j] = '\0';
-	free(basin_buffer);
-	return (new_basin);
+	}
+	if (buffer[i] == '\n')
+		line[i++] = '\n';
+	line[i] = '\0';
+	return (line);
 }
 
-static char	*ft_get_line(char *basin_buffer)
+char	*read_and_join(int fd, char *buffer, char *line)
 {
-	int		i;
-	char	*str;
+	int		bytes_read;
+	char	*prev_line;
 
-	i = 0;
-	if (!basin_buffer[i])
-		return (NULL);
-	while (basin_buffer[i])
-		i++;
-	str = malloc((i + 1) * sizeof(char));
-	if (str == NULL)
-		return (NULL);
-	i = 0;
-	while (basin_buffer[i] && basin_buffer[i] != '\n')
+	bytes_read = 1;
+	prev_line = line;
+	if (ft_strchr(line, '\n') != NULL)
+		return (line);
+	while (ft_strchr(buffer,'\n') == NULL && bytes_read != 0)
 	{
-		str[i] = basin_buffer[i];
-		i++;
-	}
-	if (basin_buffer[i] == '\n')
-	{
-		str[i] = basin_buffer[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-static char	*ft_read_to_basin(int fd, char *basin_buffer)
-{
-	char	*cup_buffer;
-	int		nbytes_read;
-
-	cup_buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (cup_buffer == NULL)
-		return (NULL);
-	nbytes_read = 1;
-	while (ft_strchr(basin_buffer, '\n') == NULL && nbytes_read != 0)
-	{
-		nbytes_read = read(fd, cup_buffer, BUFFER_SIZE);
-		if (nbytes_read == -1)
-			return (free(cup_buffer), NULL);
-		cup_buffer[nbytes_read] = '\0';
-		basin_buffer = ft_strjoin(basin_buffer, cup_buffer);
-	}
-	free(cup_buffer);
-	return (basin_buffer);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			buffer[0] = '\0';
+			return (free(prev_line), NULL);
+		}
+		buffer[bytes_read] = '\0';
+		line = combine_strs(prev_line, buffer);
+		if (line == NULL)
+			return (free(prev_line), NULL);
+		free(prev_line);
+		prev_line = line;
+	}	
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*basin_buffer;
+	static char	buffer[BUFFER_SIZE + 1];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	basin_buffer = ft_read_to_basin(fd, basin_buffer);
-	if (!basin_buffer)
+	line = insert_remainder(buffer);
+	if (line == NULL)
 		return (NULL);
-	line = ft_get_line(basin_buffer);
-	basin_buffer = ft_new_basin(basin_buffer);
+	line = read_dreaming(fd, buffer, line);
+	if (line == NULL)
+		return (NULL);
+	if (line[0] == '\0')
+		return (free(line), NULL);
+	manage_buffer(buffer);
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/15 11:01:53 by edribeir      #+#    #+#                 */
-/*   Updated: 2023/12/20 22:26:14 by edribeir      ########   odam.nl         */
+/*   Updated: 2023/12/21 12:17:53 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	manage_buffer(char *buffer)
 {
-	int	i;
+	int		i;
 	char	*tmp;
 
 	i = 0;
@@ -22,13 +22,14 @@ void	manage_buffer(char *buffer)
 	if (tmp == NULL)
 		return ;
 	tmp++;
-	while(tmp[i] != '\0')
+	while (tmp[i] != '\0')
 	{
 		buffer[i] = tmp[i];
 		i++;
 	}
 	buffer[i] = '\0';
 }
+
 char	*insert_remainder(char *buffer)
 {
 	int		i;
@@ -58,7 +59,7 @@ char	*read_and_join(int fd, char *buffer, char *line)
 	prev_line = line;
 	if (ft_strchr(line, '\n') != NULL)
 		return (line);
-	while (ft_strchr(buffer,'\n') == NULL && bytes_read != 0)
+	while (ft_strchr(buffer, '\n') == NULL && bytes_read != 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
@@ -72,7 +73,7 @@ char	*read_and_join(int fd, char *buffer, char *line)
 			return (free(prev_line), NULL);
 		free(prev_line);
 		prev_line = line;
-	}	
+	}
 	return (line);
 }
 
@@ -86,7 +87,7 @@ char	*get_next_line(int fd)
 	line = insert_remainder(buffer);
 	if (line == NULL)
 		return (NULL);
-	line = read_dreaming(fd, buffer, line);
+	line = read_and_join(fd, buffer, line);
 	if (line == NULL)
 		return (NULL);
 	if (line[0] == '\0')

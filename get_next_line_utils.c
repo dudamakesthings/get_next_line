@@ -6,7 +6,7 @@
 /*   By: edribeir <edribeir@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/12/15 11:02:14 by edribeir      #+#    #+#                 */
-/*   Updated: 2023/12/20 22:11:24 by edribeir      ########   odam.nl         */
+/*   Updated: 2023/12/21 15:20:50 by edribeir      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,6 @@ size_t	get_length(const char *str)
 	while (str[i] != '\0' && str[i] != '\n')
 		i++;
 	if (str[i] == '\n')
-		i++;
-	return (i);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
 		i++;
 	return (i);
 }
@@ -50,26 +40,26 @@ char	*ft_strchr(char *str, int ch)
 	return (NULL);
 }
 
-char	*combine_strs(char *str1, char *str2)
+char	*combine_strs(char *p_line, char *buf)
 {
-	char	*strjoined;
+	char	*joined;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	if (str1 == NULL || str2 == NULL)
+	if (p_line == NULL || buf == NULL)
 		return (NULL);
-	strjoined = malloc((ft_strlen(str1) + get_length(str2) + 1) * sizeof(char));
-	if (strjoined == NULL)
+	joined = malloc((get_length(p_line) + get_length(buf) + 1) * sizeof(char));
+	if (joined == NULL)
 		return (NULL);
-	while (str1[i] != '\0')
-		strjoined[j++] = str1[i++];
+	while (p_line[i] != '\0')
+		joined[j++] = p_line[i++];
 	i = 0;
-	while (str2[i] != '\0' && str2[i] != '\n')
-		strjoined[j++] = str2[i++];
-	if (str2[i] == '\n')
-		strjoined[j++] = str2[i];
-	strjoined[j] = '\0';
-	return (strjoined);
+	while (buf[i] != '\0' && buf[i] != '\n')
+		joined[j++] = buf[i++];
+	if (buf[i] == '\n')
+		joined[j++] = buf[i];
+	joined[j] = '\0';
+	return (joined);
 }
